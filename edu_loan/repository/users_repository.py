@@ -1,5 +1,7 @@
 from injector import inject
 
+from sqlalchemy.orm.exc import NoResultFound
+
 from edu_loan.config.dependencies import Session
 from edu_loan.repository.exceptions import RepositoryException
 
@@ -21,5 +23,12 @@ class UsersRepository(UsersRepositoryInterface):
             self.session.rollback()
             raise RepositoryException(e)
 
-    def find_user_by_email(self, email: str):
-        return self.session.query(Users).filter(Users.email == email).one()
+    def find_user_by_email(self, email: str) -> Users:
+        try:
+            return self.session.query(Users).filter(Users.email == email).one()
+        except NoResultFound as e:
+            raise RepositoryException(e)
+
+    def get_hashed_password_from_user(self, email: str) -> str:
+        user = self.find_user_by_email(email)
+        return user.password_hash

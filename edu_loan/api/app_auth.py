@@ -4,9 +4,9 @@ from flask import Blueprint, request, json
 
 from injector import inject
 
-from edu_loan.api.serializers import AuthSerializer
+from edu_loan.api.serializers import AuthSerializer, AuthSerializerException
 from edu_loan.config.dependencies import Application
-from edu_loan.domain.auth_service import AuthService
+from edu_loan.domain.auth_service import AuthService, AuthServiceException
 
 
 class AuthEndpoint:
@@ -21,19 +21,26 @@ class AuthEndpoint:
 
         @self.app.route('/api/v1/auth/register', methods=['POST'])
         def register():
-            serializer = AuthSerializer(json.loads(request.data))
-            serializer.is_valid()
+            try:
+                serializer = AuthSerializer(json.loads(request.data))
+                serializer.is_valid()
 
-            token = self.auth_service.create_new_user(serializer.get('email'), serializer.get('password'))
+                token = self.auth_service.create_new_user(serializer.get('email'), serializer.get('password'))
+            except (AuthServiceException, AuthSerializerException) as ex:
+                return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
             return {'token': token}, HTTPStatus.CREATED
 
         @self.app.route('/api/v1/auth/login', methods=['POST'])
         def login():
-            serializer = AuthSerializer(json.loads(request.data))
-            serializer.is_valid()
+            try:
+                serializer = AuthSerializer(json.loads(request.data))
+                serializer.is_valid()
 
-            token = self.auth_service.login(serializer.get('email'), serializer.get('password'))
+                token = self.auth_service.login(serializer.get('email'), serializer.get('password'))
+
+            except (AuthServiceException, AuthSerializerException) as ex:
+                return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
             return {'token': token}, HTTPStatus.CREATED
 

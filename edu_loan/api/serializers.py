@@ -1,5 +1,3 @@
-from flask import json
-
 
 class AuthSerializerException(Exception):
     pass

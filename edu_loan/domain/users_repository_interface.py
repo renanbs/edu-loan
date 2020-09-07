@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from edu_loan.repository.users_model import Users
+
 
 class UsersRepositoryInterface(ABC):
     @abstractmethod
@@ -7,5 +9,9 @@ class UsersRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def find_user_by_email(self, email: str):
+    def find_user_by_email(self, email: str) -> Users:
+        pass
+
+    @abstractmethod
+    def get_hashed_password_from_user(self, email: str) -> str:
         pass

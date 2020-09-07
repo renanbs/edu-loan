@@ -11,10 +11,10 @@ setup-dev:
 	pip install -r requirements-dev.txt
 
 test:
-	pytest -v --cov=edu-loan --ignore=edu-loan/repository/alembic --cov-fail-under=80
+	pytest -v --cov=edu_loan --ignore=edu_loan/repository/alembic --cov-fail-under=80
 
 test-coverage:
-	pytest -v --cov=edu-loan --cov-report=term-missing --cov-report=html --ignore=edu-loan/repository/alembic --cov-fail-under=80
+	pytest -v --cov=edu_loan --cov-report=term-missing --cov-report=html --cov-fail-under=80
 
 .create-venv:
 	pyenv install -s $(PYTHON_VERSION)
