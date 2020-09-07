@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from edu_loan.repository.establishment_model import Users
+from edu_loan.repository.users_model import Users
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

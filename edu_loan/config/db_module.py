@@ -5,8 +5,13 @@ from edu_loan.config.default import Config
 from edu_loan.config.dependencies import DBEngine, Session
 from sqlalchemy import create_engine
 
+from edu_loan.domain.users_repository_interface import UsersRepositoryInterface
+from edu_loan.repository.users_repository import UsersRepository
+
 
 class DbModule(Module):
+    def configure(self, binder):
+        binder.bind(UsersRepositoryInterface, to=UsersRepository, scope=singleton)
 
     @provider
     @singleton

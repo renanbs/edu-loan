@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(name='edu_loan',
-      description='Education Loan Service',
-      long_description='This is just a education loan service',
+      description='Education Loan Service Profiler',
+      long_description='This is just a education loan service profiler',
       packages=find_packages(exclude=["*tests*"]),
       version='1.0.0',
       install_requires=[
@@ -12,6 +12,7 @@ setup(name='edu_loan',
           'SQLAlchemy==1.3.19',
           'alembic==1.4.2',
           'marshmallow==3.7.1',
+          'pyjwt==1.7.1',
       ],
       extras_require={
           'dev': [
