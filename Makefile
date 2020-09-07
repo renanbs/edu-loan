@@ -61,6 +61,9 @@ all : setup-dev test-coverage code-convention
 
 default_target: code-convention test
 
+migrations:
+	alembic revision --autogenerate
+
 setup-db:
 	alembic upgrade head
 

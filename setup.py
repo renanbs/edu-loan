@@ -9,6 +9,8 @@ setup(name='edu_loan',
           'Flask==1.1.2',
           'injector==0.16.0',
           'pycpfcnpj==1.5.1',
+          'SQLAlchemy==1.3.19',
+          'alembic==1.4.2',
           'marshmallow==3.7.1',
       ],
       extras_require={

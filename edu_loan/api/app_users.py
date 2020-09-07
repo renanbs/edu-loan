@@ -15,23 +15,23 @@ class UsersEndpoint:
     def register_endpoints(self):
         app_bp = Blueprint('UsersApp', __name__)
 
-        @self.app.route('/api/v1/cpf', methods=['POST'])
+        @self.app.route('/api/v1/users/cpf', methods=['POST'])
         def cpf():
             pass
 
-        @self.app.route('/api/v1/full-name', methods=['POST'])
+        @self.app.route('/api/v1/users/full-name', methods=['POST'])
         def full_name():
             pass
 
-        @self.app.route('/api/v1/birthday', methods=['POST'])
+        @self.app.route('/api/v1/users/birthday', methods=['POST'])
         def birthday():
             pass
 
-        @self.app.route('/api/v1/phonne', methods=['POST'])
+        @self.app.route('/api/v1/users/phone', methods=['POST'])
         def phone():
             pass
 
-        @self.app.route('/api/v1/address', methods=['POST'])
+        @self.app.route('/api/v1/users/address', methods=['POST'])
         def address():
             pass
 
