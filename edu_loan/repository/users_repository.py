@@ -32,3 +32,13 @@ class UsersRepository(UsersRepositoryInterface):
     def get_hashed_password_from_user(self, email: str) -> str:
         user = self.find_user_by_email(email)
         return user.password_hash
+
+    def save_cpf(self, email: str, cpf: str) -> None:
+        try:
+            user = self.find_user_by_email(email)
+            if user.cpf != cpf:
+                user.cpf = cpf
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise RepositoryException(e)

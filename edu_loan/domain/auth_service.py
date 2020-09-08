@@ -17,11 +17,11 @@ class AuthService:
         self.users_repo = users_repo
 
     def _generate_token(self, email: str) -> str:
-        token = jwt.encode(payload={'email': email}, key=self.secret_key).decode('utf-8')
+        token = jwt.encode(payload={'email': email}, key=self.secret_key, algorithm='HS256').decode('utf-8')
         return token
 
-    def _decode_token(self, token: str) -> str:
-        payload = jwt.decode(token, self.secret_key)
+    def get_email_from_token(self, token: str) -> str:
+        payload = jwt.decode(jwt=token, key=self.secret_key, algorithms=['HS256'])
         return payload['email']
 
     # TODO: move this method to the user_service

@@ -15,3 +15,7 @@ class UsersRepositoryInterface(ABC):
     @abstractmethod
     def get_hashed_password_from_user(self, email: str) -> str:
         pass
+
+    @abstractmethod
+    def save_cpf(self, email: str, cpf: str) -> None:
+        pass

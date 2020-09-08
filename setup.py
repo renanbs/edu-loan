@@ -11,7 +11,6 @@ setup(name='edu_loan',
           'pycpfcnpj==1.5.1',
           'SQLAlchemy==1.3.19',
           'alembic==1.4.2',
-          'marshmallow==3.7.1',
           'pyjwt==1.7.1',
       ],
       extras_require={

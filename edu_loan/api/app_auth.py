@@ -4,7 +4,7 @@ from flask import Blueprint, request, json
 
 from injector import inject
 
-from edu_loan.api.serializers import AuthSerializer, AuthSerializerException
+from edu_loan.api.serializers import AuthSerializer, SerializerException
 from edu_loan.config.dependencies import Application
 from edu_loan.domain.auth_service import AuthService, AuthServiceException
 
@@ -26,7 +26,7 @@ class AuthEndpoint:
                 serializer.is_valid()
 
                 token = self.auth_service.create_new_user(serializer.get('email'), serializer.get('password'))
-            except (AuthServiceException, AuthSerializerException) as ex:
+            except (AuthServiceException, SerializerException) as ex:
                 return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
             return {'token': token}, HTTPStatus.CREATED
@@ -39,7 +39,7 @@ class AuthEndpoint:
 
                 token = self.auth_service.login(serializer.get('email'), serializer.get('password'))
 
-            except (AuthServiceException, AuthSerializerException) as ex:
+            except (AuthServiceException, SerializerException) as ex:
                 return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
             return {'token': token}, HTTPStatus.CREATED
