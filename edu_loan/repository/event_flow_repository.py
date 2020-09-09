@@ -15,8 +15,15 @@ class EventFlowRepository(EventFlowRepositoryInterface):
 
     def add(self, events: list) -> None:
         try:
-            event_flow = EventFlow(event_flow=','.join(events))
-            self.session.add(event_flow)
+            event_flow = ','.join(events)
+            saved_event_flow = self.session.query(EventFlow).first()
+            if not saved_event_flow:
+                event_flow = EventFlow(event_flow=event_flow)
+                self.session.add(event_flow)
+                self.session.commit()
+                return
+
+            saved_event_flow.event_flow = event_flow
             self.session.commit()
         except Exception as e:
             self.session.rollback()
