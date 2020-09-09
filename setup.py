@@ -12,6 +12,7 @@ setup(name='edu_loan',
           'SQLAlchemy==1.3.19',
           'alembic==1.4.2',
           'pyjwt==1.7.1',
+          'marshmallow==3.7.1',
       ],
       extras_require={
           'dev': [

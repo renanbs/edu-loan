@@ -8,7 +8,7 @@ from edu_loan.domain.auth_service import AuthServiceException
 @pytest.fixture
 def serialized_user():
     return {
-        'email': 'juca@email.com.',
+        'email': 'juca@email.com',
         'password': '123456'
     }
 

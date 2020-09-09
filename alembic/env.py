@@ -5,6 +5,11 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from edu_loan.repository.address_model import Address
+from edu_loan.repository.birthday_model import BirthDay
+from edu_loan.repository.cpf_model import Cpf
+from edu_loan.repository.name_model import Name
+from edu_loan.repository.phone_model import Phone
 from edu_loan.repository.users_model import Users
 
 # this is the Alembic Config object, which provides
@@ -20,7 +25,8 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [Users.metadata, ]
+target_metadata = [Users.metadata, Cpf.metadata, Name.metadata,
+                   BirthDay.metadata, Phone.metadata, Address.metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

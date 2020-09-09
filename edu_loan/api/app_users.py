@@ -1,12 +1,12 @@
-import json
 from http import HTTPStatus
 
 from flask import Blueprint, request
 
 from injector import inject
 
-from edu_loan.api.serializers import UsersSerializer, SerializerException
 from edu_loan.config.dependencies import Application
+from edu_loan.domain.serializers import CpfSerializer, SerializerException, NameSerializer, BirthDaySerializer, \
+    PhoneSerializer, AddressSerializer
 from edu_loan.domain.users_service import UsersService, UsersServiceException
 
 
@@ -23,29 +23,56 @@ class UsersEndpoint:
         @self.app.route('/api/v1/users/cpf', methods=['POST'])
         def cpf():
             try:
-                serializer = UsersSerializer(json.loads(request.data))
-                serializer.is_valid()
+                serializer = CpfSerializer().load(data=request.get_json())
 
                 self.users_service.save_cpf(serializer.get('token'), serializer.get('data'))
-                return {'status': 'ok'}, HTTPStatus.OK
+                return {'success': True}, HTTPStatus.OK
 
             except (UsersServiceException, SerializerException) as ex:
                 return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
         @self.app.route('/api/v1/users/full-name', methods=['POST'])
         def full_name():
-            pass
+            try:
+                serializer = NameSerializer().load(data=request.get_json())
+
+                self.users_service.save_name(serializer.get('token'), serializer.get('data'))
+                return {'success': True}, HTTPStatus.OK
+
+            except (UsersServiceException, SerializerException) as ex:
+                return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
         @self.app.route('/api/v1/users/birthday', methods=['POST'])
         def birthday():
-            pass
+            try:
+                serializer = BirthDaySerializer().load(data=request.get_json())
+
+                self.users_service.save_birthday(serializer.get('token'), serializer.get('data'))
+                return {'success': True}, HTTPStatus.OK
+
+            except (UsersServiceException, SerializerException) as ex:
+                return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
         @self.app.route('/api/v1/users/phone', methods=['POST'])
         def phone():
-            pass
+            try:
+                serializer = PhoneSerializer().load(data=request.get_json())
+
+                self.users_service.save_phone(serializer.get('token'), serializer.get('data'))
+                return {'success': True}, HTTPStatus.OK
+
+            except (UsersServiceException, SerializerException) as ex:
+                return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
         @self.app.route('/api/v1/users/address', methods=['POST'])
         def address():
-            pass
+            try:
+                serializer = AddressSerializer().load(data=request.get_json())
+
+                self.users_service.save_address(serializer.get('token'), serializer.get('data'))
+                return {'success': True}, HTTPStatus.OK
+
+            except (UsersServiceException, SerializerException) as ex:
+                return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
 
         return app_bp
