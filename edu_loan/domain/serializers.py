@@ -48,3 +48,7 @@ class AddressSerializer(BaseSchema):
 
 class AmountSerializer(BaseSchema):
     data = fields.Number(required=True)
+
+
+class EventFlowSerializer(Schema):
+    event_flow = fields.List(fields.Str(required=True))

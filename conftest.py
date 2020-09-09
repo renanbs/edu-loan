@@ -31,7 +31,7 @@ def injector(engine, session):
 
 @pytest.fixture
 def auth_service():
-    return AuthService(secret_key='my secret key', users_repo=MagicMock())
+    return AuthService(secret_key='my secret key', users_repo=MagicMock(), event_flow_repo=MagicMock())
 
 
 @pytest.fixture

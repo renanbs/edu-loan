@@ -1,4 +1,6 @@
 import jwt
+
+from edu_loan.domain.event_flow_repository_interface import EventFlowRepositoryInterface
 from edu_loan.repository.exceptions import RepositoryException
 from injector import inject
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,9 +14,11 @@ class AuthServiceException(Exception):
 
 class AuthService:
     @inject
-    def __init__(self, secret_key: str, users_repo: UsersRepositoryInterface):
+    def __init__(self, secret_key: str, users_repo: UsersRepositoryInterface,
+                 event_flow_repo: EventFlowRepositoryInterface):
         self.secret_key = secret_key
         self.users_repo = users_repo
+        self.event_flow_repo = event_flow_repo
 
     def _generate_token(self, email: str) -> str:
         token = jwt.encode(payload={'email': email}, key=self.secret_key, algorithm='HS256').decode('utf-8')
@@ -28,7 +32,8 @@ class AuthService:
     def create_new_user(self, email: str, password: str) -> str:
         try:
             new_password = generate_password_hash(password, method='pbkdf2:sha256')
-            self.users_repo.create_new_user(email, new_password)
+            event_flow = self.event_flow_repo.get()
+            self.users_repo.create_new_user(email, new_password, event_flow=event_flow)
             return self._generate_token(email)
         except (ValueError, RepositoryException) as e:
             raise AuthServiceException(str(e))

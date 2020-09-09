@@ -88,15 +88,6 @@ or
 ➜ make run
 ```
 
-> Or if you want, you can build a docker and run it:
-
-```bash
-➜ make build-docker
-➜ make run-docker
-```
-
-Both options will start the server in your localhost using port 5000.
-
 The server is accessible at the link below, despite there is no root endpoint:
 > http://127.0.0.1:5000/
 

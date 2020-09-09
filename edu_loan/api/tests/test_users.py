@@ -51,11 +51,11 @@ def serialized_amount(serialized_token):
 
 
 def test_should_save_cpf(api_client, mocker, serialized_cpf):
-    mocker.patch('edu_loan.domain.users_service.UsersService.save_cpf')
+    mocker.patch('edu_loan.domain.users_service.UsersService.save_cpf', return_value='my-next-endpoint')
     response = api_client.post('/api/v1/users/cpf', json=serialized_cpf)
 
     assert response.status_code == HTTPStatus.OK
-    assert response.get_json() == {'success': True}
+    assert response.get_json() == {'success': True, 'next-endpoint': 'my-next-endpoint'}
 
 
 def test_should_not_save_cpf(api_client, mocker, serialized_cpf):
@@ -68,11 +68,11 @@ def test_should_not_save_cpf(api_client, mocker, serialized_cpf):
 
 
 def test_should_save_name(api_client, mocker, serialized_name):
-    mocker.patch('edu_loan.domain.users_service.UsersService.save_name')
+    mocker.patch('edu_loan.domain.users_service.UsersService.save_name', return_value='my-next-endpoint')
     response = api_client.post('/api/v1/users/full-name', json=serialized_name)
 
     assert response.status_code == HTTPStatus.OK
-    assert response.get_json() == {'success': True}
+    assert response.get_json() == {'success': True, 'next-endpoint': 'my-next-endpoint'}
 
 
 def test_should_not_save_name(api_client, mocker, serialized_name):
@@ -85,11 +85,11 @@ def test_should_not_save_name(api_client, mocker, serialized_name):
 
 
 def test_should_save_birthday(api_client, mocker, serialized_birthday):
-    mocker.patch('edu_loan.domain.users_service.UsersService.save_birthday')
+    mocker.patch('edu_loan.domain.users_service.UsersService.save_birthday', return_value='my-next-endpoint')
     response = api_client.post('/api/v1/users/birthday', json=serialized_birthday)
 
     assert response.status_code == HTTPStatus.OK
-    assert response.get_json() == {'success': True}
+    assert response.get_json() == {'success': True, 'next-endpoint': 'my-next-endpoint'}
 
 
 def test_should_not_save_birthday(api_client, mocker, serialized_birthday):
@@ -102,11 +102,11 @@ def test_should_not_save_birthday(api_client, mocker, serialized_birthday):
 
 
 def test_should_save_phone(api_client, mocker, serialized_phone):
-    mocker.patch('edu_loan.domain.users_service.UsersService.save_phone')
+    mocker.patch('edu_loan.domain.users_service.UsersService.save_phone', return_value='my-next-endpoint')
     response = api_client.post('/api/v1/users/phone', json=serialized_phone)
 
     assert response.status_code == HTTPStatus.OK
-    assert response.get_json() == {'success': True}
+    assert response.get_json() == {'success': True, 'next-endpoint': 'my-next-endpoint'}
 
 
 def test_should_not_save_phone(api_client, mocker, serialized_phone):
@@ -119,11 +119,11 @@ def test_should_not_save_phone(api_client, mocker, serialized_phone):
 
 
 def test_should_save_address(api_client, mocker, serialized_address):
-    mocker.patch('edu_loan.domain.users_service.UsersService.save_address')
+    mocker.patch('edu_loan.domain.users_service.UsersService.save_address', return_value='my-next-endpoint')
     response = api_client.post('/api/v1/users/address', json=serialized_address)
 
     assert response.status_code == HTTPStatus.OK
-    assert response.get_json() == {'success': True}
+    assert response.get_json() == {'success': True, 'next-endpoint': 'my-next-endpoint'}
 
 
 def test_should_not_save_address(api_client, mocker, serialized_address):

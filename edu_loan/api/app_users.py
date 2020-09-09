@@ -25,8 +25,9 @@ class UsersEndpoint:
             try:
                 serializer = CpfSerializer().load(data=request.get_json())
 
-                self.users_service.save_cpf(serializer.get('token'), serializer.get('data'))
-                return {'success': True}, HTTPStatus.OK
+                next_endpoint = self.users_service.save_cpf(serializer.get('token'),
+                                                            serializer.get('data'), request.path)
+                return {'success': True, 'next-endpoint': next_endpoint}, HTTPStatus.OK
 
             except (UsersServiceException, SerializerException) as ex:
                 return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
@@ -36,8 +37,9 @@ class UsersEndpoint:
             try:
                 serializer = NameSerializer().load(data=request.get_json())
 
-                self.users_service.save_name(serializer.get('token'), serializer.get('data'))
-                return {'success': True}, HTTPStatus.OK
+                next_endpoint = self.users_service.save_name(serializer.get('token'),
+                                                             serializer.get('data'), request.path)
+                return {'success': True, 'next-endpoint': next_endpoint}, HTTPStatus.OK
 
             except (UsersServiceException, SerializerException) as ex:
                 return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
@@ -47,8 +49,9 @@ class UsersEndpoint:
             try:
                 serializer = BirthDaySerializer().load(data=request.get_json())
 
-                self.users_service.save_birthday(serializer.get('token'), serializer.get('data'))
-                return {'success': True}, HTTPStatus.OK
+                next_endpoint = self.users_service.save_birthday(serializer.get('token'),
+                                                                 serializer.get('data'), request.path)
+                return {'success': True, 'next-endpoint': next_endpoint}, HTTPStatus.OK
 
             except (UsersServiceException, SerializerException) as ex:
                 return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
@@ -58,8 +61,9 @@ class UsersEndpoint:
             try:
                 serializer = PhoneSerializer().load(data=request.get_json())
 
-                self.users_service.save_phone(serializer.get('token'), serializer.get('data'))
-                return {'success': True}, HTTPStatus.OK
+                next_endpoint = self.users_service.save_phone(serializer.get('token'),
+                                                              serializer.get('data'), request.path)
+                return {'success': True, 'next-endpoint': next_endpoint}, HTTPStatus.OK
 
             except (UsersServiceException, SerializerException) as ex:
                 return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
@@ -69,8 +73,9 @@ class UsersEndpoint:
             try:
                 serializer = AddressSerializer().load(data=request.get_json())
 
-                self.users_service.save_address(serializer.get('token'), serializer.get('data'))
-                return {'success': True}, HTTPStatus.OK
+                next_endpoint = self.users_service.save_address(serializer.get('token'),
+                                                                serializer.get('data'), request.path)
+                return {'success': True, 'next-endpoint': next_endpoint}, HTTPStatus.OK
 
             except (UsersServiceException, SerializerException) as ex:
                 return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
@@ -80,7 +85,7 @@ class UsersEndpoint:
             try:
                 serializer = AmountSerializer().load(data=request.get_json())
 
-                self.users_service.save_amount(serializer.get('token'), serializer.get('data'))
+                self.users_service.save_amount(serializer.get('token'), serializer.get('data'), request.path)
                 return {'success': True}, HTTPStatus.OK
 
             except (UsersServiceException, SerializerException) as ex:

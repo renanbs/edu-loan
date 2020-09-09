@@ -14,9 +14,11 @@ class UsersRepository(UsersRepositoryInterface):
     def __init__(self, session: Session):
         self.session = session
 
-    def create_new_user(self, email: str, hashed_password: str) -> None:
+    def create_new_user(self, email: str, hashed_password: str, event_flow: str) -> None:
         try:
-            user = Users(email=email, password_hash=hashed_password)
+            first_step = event_flow.split(',', maxsplit=1)[0]
+            user = Users(email=email, password_hash=hashed_password,
+                         event_flow=event_flow, step=first_step, step_index=0)
             self.session.add(user)
             self.session.commit()
         except Exception as e:
@@ -37,7 +39,23 @@ class UsersRepository(UsersRepositoryInterface):
         try:
             user = self.find_user_by_email(email)
             user.amount = amount
+            user.step_index = user.step_index + 1
             self.session.commit()
         except Exception as e:
             self.session.rollback()
             raise RepositoryException(e)
+
+    def set_next_step(self, email: str) -> str:
+        try:
+            user = self.find_user_by_email(email)
+            user.step_index = user.step_index + 1
+            user.step = user.event_flow.split(',')[user.step_index]
+            self.session.commit()
+            return user.step
+        except Exception as e:
+            self.session.rollback()
+            raise RepositoryException(e)
+
+    def get_next_step(self, email: str) -> str:
+        user = self.find_user_by_email(email)
+        return user.event_flow.split(',')[user.step_index]

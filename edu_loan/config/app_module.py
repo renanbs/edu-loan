@@ -1,4 +1,6 @@
+from edu_loan.api.app_event_flow import EventFlowEndpoint
 from edu_loan.domain.auth_service import AuthService
+from edu_loan.domain.event_flow_repository_interface import EventFlowRepositoryInterface
 from edu_loan.domain.users_repository_interface import UsersRepositoryInterface
 from injector import Module, singleton, provider, inject
 
@@ -12,7 +14,7 @@ class AppModule(Module):
     @singleton
     @provider
     def register(self) -> ApplicationRegister:
-        return [UsersEndpoint, AuthEndpoint]
+        return [UsersEndpoint, AuthEndpoint, EventFlowEndpoint]
 
     @provider
     def configuration(self) -> ApplicationConfig:
@@ -20,5 +22,6 @@ class AppModule(Module):
 
     @provider
     @inject
-    def auth_service(self, config: ApplicationConfig, users_repo: UsersRepositoryInterface) -> AuthService:
-        return AuthService(config.SECRET_KEY, users_repo)
+    def auth_service(self, config: ApplicationConfig, users_repo: UsersRepositoryInterface,
+                     event_flow_repo: EventFlowRepositoryInterface) -> AuthService:
+        return AuthService(config.SECRET_KEY, users_repo, event_flow_repo)
