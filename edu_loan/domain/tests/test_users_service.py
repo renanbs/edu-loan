@@ -136,10 +136,36 @@ def test_should_not_save_address(users_service, juca_token):
     assert str(e.value) == 'weird error'
 
 
-# def test_should_ensure_steps_order(users_service, juca_token):
-#     users_service.profiler_repo.get_last_entity = MagicMock(return_value=None)
-#     users_service.profiler_repo.save_phone = MagicMock()
-#     users_service._validate_step = MagicMock()
-#
-#     users_service.save_phone(juca_token, '51999999999', 'xxx')
-#     users_service.profiler_repo.save_phone.assert_called_once()
+class TestUser:
+    def __init__(self, email, event_flow, step, index):
+        self.id = 1
+        self.email = email
+        self.event_flow = event_flow
+        self.step = step
+        self.step_index = index
+
+
+@pytest.fixture
+def user_1(juca_email):
+    return TestUser(email=juca_email, event_flow='x1,x2,x3', step='x1', index=0)
+
+
+def test_should_ensure_steps_order(users_service, juca_token, user_1):
+    users_service._get_user = MagicMock(return_value=user_1)
+    users_service.profiler_repo.get_last_entity = MagicMock(return_value=None)
+    users_service.profiler_repo.save_phone = MagicMock()
+
+    users_service.save_phone(juca_token, '51999999999', 'x1')
+    users_service.profiler_repo.save_phone.assert_called_once()
+
+
+def test_should_not_save_phone_because_of_steps_order(users_service, juca_token, user_1):
+    users_service._get_user = MagicMock(return_value=user_1)
+    users_service.profiler_repo.get_last_entity = MagicMock(return_value=None)
+    users_service.profiler_repo.save_phone = MagicMock()
+
+    with pytest.raises(UsersServiceException) as e:
+        users_service.save_phone(juca_token, '51999999999', 'x2')
+
+    users_service.profiler_repo.save_phone.assert_not_called()
+    assert str(e.value) == 'Invalid step, please execute x1 first'
