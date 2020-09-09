@@ -44,3 +44,7 @@ class PhoneSerializer(BaseSchema):
 
 class AddressSerializer(BaseSchema):
     data = fields.Str(required=True)
+
+
+class AmountSerializer(BaseSchema):
+    data = fields.Number(required=True)

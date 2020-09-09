@@ -109,3 +109,7 @@ class UsersService:
 
         except RepositoryException as e:
             raise UsersServiceException(e)
+
+    def save_amount(self, token: str, amount: int) -> None:
+        email = self.auth_service.get_email_from_token(token)
+        self.users_repo.save_amount(email, amount)

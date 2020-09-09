@@ -33,11 +33,10 @@ class UsersRepository(UsersRepositoryInterface):
         user = self.find_user_by_email(email)
         return user.password_hash
 
-    def save_cpf(self, email: str, cpf: str) -> None:
+    def save_amount(self, email: str, amount: int) -> None:
         try:
             user = self.find_user_by_email(email)
-            if user.cpf != cpf:
-                user.cpf = cpf
+            user.amount = amount
             self.session.commit()
         except Exception as e:
             self.session.rollback()

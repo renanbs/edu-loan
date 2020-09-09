@@ -17,5 +17,5 @@ class UsersRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def save_cpf(self, email: str, cpf: str) -> None:
+    def save_amount(self, email: str, amount: int) -> None:
         pass

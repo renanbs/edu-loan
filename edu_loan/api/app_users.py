@@ -6,7 +6,7 @@ from injector import inject
 
 from edu_loan.config.dependencies import Application
 from edu_loan.domain.serializers import CpfSerializer, SerializerException, NameSerializer, BirthDaySerializer, \
-    PhoneSerializer, AddressSerializer
+    PhoneSerializer, AddressSerializer, AmountSerializer
 from edu_loan.domain.users_service import UsersService, UsersServiceException
 
 
@@ -70,6 +70,17 @@ class UsersEndpoint:
                 serializer = AddressSerializer().load(data=request.get_json())
 
                 self.users_service.save_address(serializer.get('token'), serializer.get('data'))
+                return {'success': True}, HTTPStatus.OK
+
+            except (UsersServiceException, SerializerException) as ex:
+                return {'error': str(ex)}, HTTPStatus.BAD_REQUEST
+
+        @self.app.route('/api/v1/users/amount', methods=['POST'])
+        def loan_amount():
+            try:
+                serializer = AmountSerializer().load(data=request.get_json())
+
+                self.users_service.save_amount(serializer.get('token'), serializer.get('data'))
                 return {'success': True}, HTTPStatus.OK
 
             except (UsersServiceException, SerializerException) as ex:

@@ -7,6 +7,7 @@ from injector import Injector
 
 from edu_loan.config.dependencies import DBEngine, Session
 from edu_loan.config.main_module import MODULES
+from edu_loan.domain.users_service import UsersService
 
 
 @pytest.fixture
@@ -31,3 +32,8 @@ def injector(engine, session):
 @pytest.fixture
 def auth_service():
     return AuthService(secret_key='my secret key', users_repo=MagicMock())
+
+
+@pytest.fixture
+def users_service(auth_service):
+    return UsersService(auth_service, users_repo=MagicMock(), profiler_repo=MagicMock())
