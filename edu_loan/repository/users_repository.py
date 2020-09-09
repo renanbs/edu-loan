@@ -39,7 +39,6 @@ class UsersRepository(UsersRepositoryInterface):
         try:
             user = self.find_user_by_email(email)
             user.amount = amount
-            user.step_index = user.step_index + 1
             self.session.commit()
         except Exception as e:
             self.session.rollback()
@@ -48,8 +47,10 @@ class UsersRepository(UsersRepositoryInterface):
     def set_next_step(self, email: str) -> str:
         try:
             user = self.find_user_by_email(email)
-            user.step_index = user.step_index + 1
-            user.step = user.event_flow.split(',')[user.step_index]
+            events = user.event_flow.split(',')
+            if user.step_index != len(events):
+                user.step_index = user.step_index + 1
+            user.step = events[user.step_index]
             self.session.commit()
             return user.step
         except Exception as e:
