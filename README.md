@@ -72,7 +72,12 @@ Running code style and all tests
 
 There are some ways to run this project.
 
-> When you create virtual environment, you have those 3 options above:
+> First, we need to setup a database. For this test we are just using a simple sqlite database.
+```bash
+➜ make setup-db
+```
+
+> Now we can run the server, those are the options:
 
 ```bash
 ➜ flask run
